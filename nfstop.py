@@ -19,6 +19,7 @@ import argparse
 import stat
 import signal
 import sys
+from datetime import datetime
 from pathlib import Path
 from rich.console import Console
 from rich.table import Table
@@ -37,13 +38,15 @@ def main():
         f.write(systemtap(args.seconds, args.lines))
     stp_file.chmod(stp_file.stat().st_mode | stat.S_IEXEC)
 
+    myself = socket.gethostname()
     console = Console()
     console.clear(home=True)
     with Live(console=console) as live_table:
         for line in execute([f"./{str(stp_file)}"]):
             data = json.loads(line)
 
-            t = Table(box=box.MINIMAL, expand=True)
+            now = datetime.now().strftime("%H:%M:%S")
+            t = Table(box=box.MINIMAL, expand=True, title='nfstop on '+myself+', '+now, title_style="bold", title_justify="right")
             t.add_column("read", ratio=1)
             t.add_column("write", ratio=1)
 
