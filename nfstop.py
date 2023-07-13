@@ -153,9 +153,9 @@ def signal_handler(sig, frame):
 
 def halftable():
     t = Table(box=box.SIMPLE_HEAD, expand=True, show_header=False)
-    t.add_column("")
-    t.add_column("", justify="right")
-    t.add_column("", justify="right")
+    t.add_column("", ratio=2)
+    t.add_column("", justify="right", ratio=1)
+    t.add_column("", justify="right", ratio=1)
 
     return t
 
